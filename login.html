@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | My WebApp</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="brand">My WebApp</div>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="login.html" class="active">Login</a>
+        <a href="signup.html">Sign Up</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="card">
+        <h2>Login</h2>
+        <form class="form" action="index.html" method="GET">
+          <div class="form-row">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+          </div>
+          <div class="form-row">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password" required>
+          </div>
+          <button type="submit" class="btn">Login</button>
+          <p class="small">Don’t have an account? <a href="signup.html">Sign up here</a></p>
+        </form>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>&copy; 2025 My WebApp. All rights reserved.</p>
+    </footer>
+  </div>
+</body>
+</html>
