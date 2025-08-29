@@ -3,10 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
+  <title>Home | My WebApp</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Welcome</h1>
-  <a href="signup.html">Go to Sign Up</a>
+  <div class="container">
+    <header class="header">
+      <div class="brand">My WebApp</div>
+      <nav class="nav">
+        <a href="index.html" class="active">Home</a>
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="card">
+        <h2>Welcome to My WebApp 🎉</h2>
+        <p>This is the homepage. From here you can sign up for a new account or log in if you already have one.</p>
+        <div class="actions">
+          <a href="signup.html" class="btn">Get Started</a>
+          <a href="login.html" class="btn secondary">Login</a>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>&copy; 2025 My WebApp. All rights reserved.</p>
+    </footer>
+  </div>
 </body>
 </html>
