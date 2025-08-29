@@ -21,7 +21,6 @@
       <div class="card">
         <h2>Create Account</h2>
 
-        <!-- JS handles submit instead of action attribute -->
         <form id="signupForm" class="form" autocomplete="off">
           <div class="form-row">
             <label for="name">Full Name</label>
@@ -42,7 +41,7 @@
             <button type="submit" class="btn">Sign Up</button>
             <a href="login.html" class="btn secondary" style="padding:9px 12px;">Already have account</a>
           </div>
-          <p class="small" style="margin-top:10px">By signing up you’ll be redirected to the calorie tracker / food logger demo.</p>
+          <p class="small" style="margin-top:10px">By signing up you’ll be redirected to the food logger demo.</p>
         </form>
       </div>
     </main>
@@ -72,7 +71,7 @@
         return;
       }
 
-      // Minimal "account" object – only for demo purposes
+      // Save user info in localStorage
       const user = { name, email, createdAt: new Date().toISOString() };
 
       try {
@@ -82,8 +81,8 @@
         console.error('localStorage error', err);
       }
 
-      // Redirect to your food logger demo (change this URL to your actual GitHub Pages URL)
-      window.location.href = 'https://your-username.github.io/food-logger/';
+      // Redirect to your food logger demo
+      window.location.href = 'https://niyiesh.github.io/food-logger-demo/';
     });
   });
   </script>
