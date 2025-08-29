@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign Up</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up | My WebApp</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -20,21 +20,29 @@
     <main>
       <div class="card">
         <h2>Create Account</h2>
-        <form class="form" action="index.html" method="GET">
+
+        <!-- Note: no action attribute — we handle submit via JS -->
+        <form id="signupForm" class="form" autocomplete="off">
           <div class="form-row">
             <label for="name">Full Name</label>
-            <input type="text" id="name" required>
+            <input type="text" id="name" required placeholder="Jane Doe">
           </div>
+
           <div class="form-row">
             <label for="email">Email</label>
-            <input type="email" id="email" required>
+            <input type="email" id="email" required placeholder="you@example.com">
           </div>
+
           <div class="form-row">
-            <label for="password">Password</label>
-            <input type="password" id="password" required>
+            <label for="password">Password <span class="small">(min 6 chars)</span></label>
+            <input type="password" id="password" minlength="6" required>
           </div>
-          <button type="submit" class="btn">Sign Up</button>
-          <p class="small">Already have an account? <a href="login.html">Login here</a></p>
+
+          <div class="row">
+            <button type="submit" class="btn">Sign Up</button>
+            <a href="login.html" class="btn secondary" style="padding:9px 12px;">Already have account</a>
+          </div>
+          <p class="small" style="margin-top:10px">By signing up you’ll be redirected to the calorie tracker.</p>
         </form>
       </div>
     </main>
@@ -43,5 +51,47 @@
       <p>&copy; 2025 My WebApp. All rights reserved.</p>
     </footer>
   </div>
+
+  <script>
+  // Save user to localStorage and redirect to calorie app
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('signupForm');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = (document.getElementById('name').value || '').trim();
+      const email = (document.getElementById('email').value || '').trim().toLowerCase();
+      const password = document.getElementById('password').value || '';
+
+      if (!name || !email) {
+        alert('Please enter name and email.');
+        return;
+      }
+      if (password.length < 6) {
+        alert('Password must be at least 6 characters.');
+        return;
+      }
+
+      // Minimal demo "account" object – DO NOT store sensitive stuff in localStorage for production
+      const user = {
+        name,
+        email,
+        createdAt: new Date().toISOString()
+      };
+
+      try {
+        // store under two keys so other pages (calorie app) can detect either key
+        localStorage.setItem('calorieAppUser', JSON.stringify(user));
+        localStorage.setItem('currentUser', JSON.stringify(user));
+      } catch (err) {
+        console.error('localStorage error', err);
+      }
+
+      // redirect to your calorie app file (change filename below if different)
+      window.location.href = 'calorie-app.html';
+    });
+  });
+  </script>
 </body>
 </html>
