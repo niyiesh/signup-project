@@ -49,12 +49,24 @@
 <body>
   <div class="container">
     <h2>Create Account</h2>
-    <form>
-      <input type="text" placeholder="Full Name" required>
-      <input type="email" placeholder="Email" required>
-      <input type="password" placeholder="Password" required>
+    <form id="signup-form">
+      <input type="text" id="fullName" placeholder="Full Name" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
       <button type="submit">Sign Up</button>
     </form>
   </div>
+
+  <script>
+    // Capture the form data when user submits
+    document.getElementById("signup-form").addEventListener("submit", function(e) {
+      e.preventDefault(); // stop page refresh
+
+      const name = document.getElementById("fullName").value;
+      const email = document.getElementById("email").value;
+
+      alert("Account Created!\n\nName: " + name + "\nEmail: " + email);
+    });
+  </script>
 </body>
 </html>
