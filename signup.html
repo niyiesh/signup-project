@@ -21,7 +21,7 @@
       <div class="card">
         <h2>Create Account</h2>
 
-        <!-- Note: no action attribute — we handle submit via JS -->
+        <!-- JS handles submit instead of action attribute -->
         <form id="signupForm" class="form" autocomplete="off">
           <div class="form-row">
             <label for="name">Full Name</label>
@@ -42,7 +42,7 @@
             <button type="submit" class="btn">Sign Up</button>
             <a href="login.html" class="btn secondary" style="padding:9px 12px;">Already have account</a>
           </div>
-          <p class="small" style="margin-top:10px">By signing up you’ll be redirected to the calorie tracker.</p>
+          <p class="small" style="margin-top:10px">By signing up you’ll be redirected to the calorie tracker / food logger demo.</p>
         </form>
       </div>
     </main>
@@ -53,7 +53,6 @@
   </div>
 
   <script>
-  // Save user to localStorage and redirect to calorie app
   document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('signupForm');
 
@@ -73,23 +72,18 @@
         return;
       }
 
-      // Minimal demo "account" object – DO NOT store sensitive stuff in localStorage for production
-      const user = {
-        name,
-        email,
-        createdAt: new Date().toISOString()
-      };
+      // Minimal "account" object – only for demo purposes
+      const user = { name, email, createdAt: new Date().toISOString() };
 
       try {
-        // store under two keys so other pages (calorie app) can detect either key
         localStorage.setItem('calorieAppUser', JSON.stringify(user));
         localStorage.setItem('currentUser', JSON.stringify(user));
       } catch (err) {
         console.error('localStorage error', err);
       }
 
-      // redirect to your calorie app file (change filename below if different)
-      window.location.href = 'calorie-app.html';
+      // Redirect to your food logger demo (change this URL to your actual GitHub Pages URL)
+      window.location.href = 'https://your-username.github.io/food-logger/';
     });
   });
   </script>
