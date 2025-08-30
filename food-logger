@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Food Logger</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; }
+    #suggestions { border: 1px solid #ccc; max-width: 300px; display: none; }
+    #suggestions li { padding: 5px; cursor: pointer; }
+    #suggestions li:hover { background: #f0f0f0; }
+    table, th, td { border: 1px solid black; border-collapse: collapse; padding: 5px; }
+  </style>
+</head>
+<body>
+  <h2>Food Logger</h2>
+  <input type="text" id="foodInput" placeholder="Type food (e.g. chestnuts 2)" size="40">
+  <ul id="suggestions"></ul>
+  <button onclick="searchFood()">View Results</button>
+  <div id="results"></div>
+
+  <script>
+    const appId = "bd49c793";
+    const appKey = "bf769452419b014d93f45562bb02caee";
+
+    const input = document.getElementById('foodInput');
+    const suggestionsEl = document.getElementById('suggestions');
+    let suggestions = [];
+
+    input.addEventListener('input', async () => {
+      const query = input.value.trim();
+      if (!query) { suggestionsEl.style.display = 'none'; return; }
+      try {
+        const resp = await fetch(`https://trackapi.nutritionix.com/v2/search/instant?query=${encodeURIComponent(query)}`, {
+          headers: { "x-app-id": appId, "x-app-key": appKey }
+        });
+        const data = await resp.json();
+        suggestions = [...data.common, ...data.branded].slice(0, 5);
+        if (suggestions.length > 0) {
+          suggestionsEl.innerHTML = '';
+          suggestions.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = item.food_name || item.brand_name_item_name;
+            li.onclick = () => {
+              input.value = li.textContent;
+              suggestionsEl.style.display = 'none';
+              searchFood();
+            };
+            suggestionsEl.appendChild(li);
+          });
+          suggestionsEl.style.display = 'block';
+        } else {
+          suggestionsEl.style.display = 'none';
+        }
+      } catch (err) { console.error(err); }
+    });
+
+    async function searchFood() {
+      const query = input.value.trim();
+      if (!query) return;
+      try {
+        const resp = await fetch("https://trackapi.nutritionix.com/v2/natural/nutrients", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-app-id": appId,
+            "x-app-key": appKey
+          },
+          body: JSON.stringify({ query })
+        });
+        const data = await resp.json();
+        if (!data.foods || data.foods.length === 0) {
+          results.innerHTML = "<p>No results.</p>";
+          return;
+        }
+        const f = data.foods[0];
+        results.innerHTML = `
+          <h3>${f.food_name}</h3>
+          <table>
+            <tr><th>Qty</th><th>Calories</th><th>Protein (g)</th><th>Carbs (g)</th><th>Fat (g)</th></tr>
+            <tr>
+              <td>${f.serving_qty} ${f.serving_unit}</td>
+              <td>${f.nf_calories}</td>
+              <td>${f.nf_protein}</td>
+              <td>${f.nf_total_carbohydrate}</td>
+              <td>${f.nf_total_fat}</td>
+            </tr>
+          </table>
+        `;
+      } catch (err) {
+        console.error(err);
+        results.innerHTML = "<p>Error fetching nutrition info.</p>";
+      }
+    }
+  </script>
+</body>
+</html>
